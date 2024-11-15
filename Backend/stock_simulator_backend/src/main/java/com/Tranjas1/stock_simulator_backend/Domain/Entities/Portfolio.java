@@ -1,4 +1,4 @@
-package com.Tranjas1.stock_simulator_backend.Entities;
+package com.Tranjas1.stock_simulator_backend.Domain.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,4 +26,6 @@ public class Portfolio {
     private Set<Stock> stocks;
 
     private double totalAmount;
+
+    private double buyingPower;
 }

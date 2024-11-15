@@ -1,4 +1,4 @@
-package com.Tranjas1.stock_simulator_backend.Entities;
+package com.Tranjas1.stock_simulator_backend.Domain.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transactions")
-public class Transactions {
+public class Transaction {
     @JoinColumn(name = "user_id")
     @ManyToOne
     User user;
