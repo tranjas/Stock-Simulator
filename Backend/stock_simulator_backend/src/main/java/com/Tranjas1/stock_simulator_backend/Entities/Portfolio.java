@@ -1,15 +1,11 @@
 package com.Tranjas1.stock_simulator_backend.Entities;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -17,11 +13,17 @@ import java.util.Map;
 @Builder
 @Table(name = "portfolios")
 public class Portfolio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long portfolioId;
+
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
 
-    private double amount;
+    @OneToMany(mappedBy = "portfolio")
+    private Set<Stock> stocks;
 
-    private Map<String, Integer> stockTracker;
+    private double totalAmount;
 }
