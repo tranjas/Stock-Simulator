@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -21,6 +22,5 @@ public class UserDTO {
 
     private String email;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 }

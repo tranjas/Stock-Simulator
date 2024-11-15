@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserRepositoryIntegrationTest {
+
     private final UserRepository underTest;
 
     @Autowired
@@ -26,24 +26,25 @@ public class UserRepositoryIntegrationTest {
     }
 
     @Test
-    public void testSaveAndFindUser() throws Exception {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        Date dateOfBirth = dateFormat.parse("01/12/2002");
+    public void testSaveAndFindUser() {
+        // Setup: Create a new user with a valid date
+        LocalDate date = LocalDate.of(1990, 12, 1);
         User user = User.builder()
                 .firstName("testuser")
                 .lastName("last")
                 .email("testuser@example.com")
-                .dateOfBirth(dateOfBirth)
+                .dateOfBirth(date)
                 .build();
 
+        // Act: Save the user to the repository
         underTest.save(user);
 
+        // Assert: Retrieve the user by ID and verify it is persisted
         Optional<User> foundUser = underTest.findById(user.getId());
-        assertThat(foundUser).isPresent();
-        assertThat(user.getFirstName()).isEqualTo("testuser");
-        assertThat(user.getLastName()).isEqualTo("last");
-        assertThat(foundUser.get()).isEqualTo(user);
+        assertThat(foundUser).isPresent();  // Assert that the user is found
+        assertThat(foundUser.get().getFirstName()).isEqualTo("testuser");
+        assertThat(foundUser.get().getLastName()).isEqualTo("last");
+        assertThat(foundUser.get().getDateOfBirth()).isEqualTo(date);
+        assertThat(foundUser.get().getEmail()).isEqualTo("testuser@example.com");  // Check last name
     }
-
 }

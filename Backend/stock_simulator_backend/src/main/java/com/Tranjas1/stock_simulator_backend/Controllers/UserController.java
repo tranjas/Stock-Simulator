@@ -23,6 +23,7 @@ public class UserController {
     @PostMapping(path = "/createUser")
     public UserDTO createUser(@RequestBody UserDTO user) {
         User userEntity = userMapper.mapFrom(user);
-        return userMapper.mapTo(userService.createUser(userEntity));
+        User userFrom = userService.createUser(userEntity);
+        return userMapper.mapTo(userFrom);
     }
 }
