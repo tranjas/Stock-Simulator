@@ -5,5 +5,5 @@ import com.Tranjas1.stock_simulator_backend.Domain.Entities.User;
 public interface UserService {
 
     User createUser(User user);
-
+    boolean deleteUser(long id);
 }
