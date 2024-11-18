@@ -6,4 +6,6 @@ public interface UserService {
 
     User createUser(User user);
     boolean deleteUser(long id);
+
+    User updateUser(long id, User user);
 }

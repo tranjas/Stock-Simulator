@@ -1,24 +1,21 @@
-package com.Tranjas1.stock_simulator_backend.Domain.Entities;
+package com.Tranjas1.stock_simulator_backend.Domain.DTO;
 
-import jakarta.persistence.*;
+import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
-@Table(name = "stocks")
-public class Stock {
-
-    @Id
+@AllArgsConstructor
+@NoArgsConstructor // for jackson to convert to JSON or from
+@Builder
+public class StockDTO {
     private String symbol;
 
     private double amount;
@@ -29,7 +26,5 @@ public class Stock {
 
     private LocalDate lastUpdated;
 
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
 }

@@ -3,6 +3,7 @@ package com.Tranjas1.stock_simulator_backend.Services.impl;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.User;
 import com.Tranjas1.stock_simulator_backend.Repositories.UserRepository;
 import com.Tranjas1.stock_simulator_backend.Services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,20 @@ public class UserServiceImpl implements UserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public User updateUser(long id, User user) {
+        Optional<User> currentUser = userRepository.findById(id);
+        if (currentUser.isPresent()) {
+            User newUser = currentUser.get();
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setEmail(user.getEmail());
+            return userRepository.save(newUser);
+        } else {
+            throw new EntityNotFoundException("User with ID " + id + " not found.");
         }
     }
 }
