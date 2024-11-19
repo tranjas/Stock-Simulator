@@ -8,4 +8,6 @@ public interface StockService {
     boolean deleteStock(String symbol);
 
     Stock updateStock(String symbol, Stock stockEntity);
+
+    Stock getStock(String symbol);
 }

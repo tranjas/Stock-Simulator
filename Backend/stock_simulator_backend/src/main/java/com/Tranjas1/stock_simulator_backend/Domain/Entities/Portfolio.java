@@ -25,7 +25,7 @@ public class Portfolio {
     @MapsId
     private User user;
 
-    @OneToMany(mappedBy = "portfolio")
+    @OneToMany(mappedBy = "portfolio", fetch = FetchType.EAGER)
     private Set<Stock> stocks;
 
 

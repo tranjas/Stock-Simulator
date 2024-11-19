@@ -3,7 +3,10 @@ package com.Tranjas1.stock_simulator_backend.Services.impl;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
 import com.Tranjas1.stock_simulator_backend.Repositories.StockRepository;
+import com.Tranjas1.stock_simulator_backend.Services.PortfolioService;
 import com.Tranjas1.stock_simulator_backend.Services.StockService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -12,9 +15,12 @@ import java.util.Optional;
 @Service
 public class StockServiceImpl implements StockService {
     private final StockRepository stockRepository;
+    private final PortfolioService portfolioService;
 
-    public StockServiceImpl(StockRepository stockRepository) {
+    @Autowired
+    public StockServiceImpl(StockRepository stockRepository, PortfolioService portfolioService) {
         this.stockRepository = stockRepository;
+        this.portfolioService = portfolioService;
     }
 
     @Override
@@ -41,7 +47,8 @@ public class StockServiceImpl implements StockService {
             if (portfolio != null) {
                 portfolio.getStocks().remove(stockEntity);
                 stock.get().setPortfolio(null);
-                // TODO: Figure out if I should import Portfolio Endpoint to save the portfolio or to import the Portfolio Repository beneath
+                portfolioService.updateStock(portfolio.getUserId(), symbol, "remove");
+
             }
         }
         if (stockEntity.getPrice() != 0.0) {
@@ -55,5 +62,10 @@ public class StockServiceImpl implements StockService {
         return stockRepository.save(stock.get());
     }
 
+    @Override
+    public Stock getStock(String symbol) {
+        return stockRepository.findById(symbol)
+                .orElseThrow(() -> new EntityNotFoundException("Stock not found for symbol: " + symbol));
+    }
 
 }

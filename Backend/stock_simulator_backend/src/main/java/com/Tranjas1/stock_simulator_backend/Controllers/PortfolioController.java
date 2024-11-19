@@ -4,15 +4,50 @@ import com.Tranjas1.stock_simulator_backend.Domain.DTO.PortfolioDTO;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
 import com.Tranjas1.stock_simulator_backend.Mappers.Mapper;
 import com.Tranjas1.stock_simulator_backend.Services.PortfolioService;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PortfolioController {
     private final PortfolioService portfolioService;
     private final Mapper<Portfolio, PortfolioDTO> portfolioMapper;
 
+    @Autowired
     public PortfolioController(PortfolioService portfolioService, Mapper<Portfolio, PortfolioDTO> portfolioMapper) {
         this.portfolioMapper = portfolioMapper;
         this.portfolioService = portfolioService;
+    }
+
+    @PostMapping(path = "/portfolios")
+    public ResponseEntity<PortfolioDTO> createPortfolio (@RequestBody PortfolioDTO portfolioDTO) {
+        Portfolio portfolioEntity = portfolioMapper.mapToEntity(portfolioDTO);
+        Portfolio portfolioSaved = portfolioService.createPortfolio(portfolioEntity);
+        return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolioSaved), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/portfolios/{id}")
+    public ResponseEntity<PortfolioDTO> getPortfolio(@PathVariable long user_id) {
+        Portfolio portfolio = portfolioService.getPortfolio(user_id);
+        return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolio), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/portfolios/{id}")
+    public ResponseEntity<Void> deletePortfolio (@PathVariable long user_id) {
+        boolean isDeleted = portfolioService.deletePortfolio(user_id);
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(path = "/portfolios/buyingPower/{id}/{amount}")
+    public ResponseEntity<Void> updateBuyingPower (@PathVariable long user_id, @PathVariable double amount) {
+        portfolioService.updateBuyingPower(user_id, amount);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "/portfolios/{id}/{symbol}/{method}")
+    public ResponseEntity<PortfolioDTO> updateStock (@PathVariable long user_id, @PathVariable String symbol, @PathVariable String method) {
+        Portfolio portfolio = portfolioService.updateStock(user_id, symbol, method);
+        return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolio), HttpStatus.OK);
     }
 }
