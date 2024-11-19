@@ -19,6 +19,18 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User createUser(User user) {
+        if (user.getFirstName() == null) {
+            throw new IllegalArgumentException("First Name is required");
+        }
+        if (user.getLastName() == null) {
+            throw new IllegalArgumentException("Last Name is Required");
+        }
+        if (user.getEmail() == null) {
+            throw new IllegalArgumentException("Email is Required");
+        }
+        if (user.getDateOfBirth() == null) {
+            throw new IllegalArgumentException("Date of BIrth is  Required");
+        }
         return userRepository.save(user);
     }
     @Override

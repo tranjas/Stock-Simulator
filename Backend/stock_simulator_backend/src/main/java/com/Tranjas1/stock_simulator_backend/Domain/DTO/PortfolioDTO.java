@@ -23,7 +23,5 @@ public class PortfolioDTO {
 
     private Set<Stock> stocks;
 
-    private double totalAmount;
-
     private double buyingPower;
 }

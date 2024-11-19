@@ -27,7 +27,6 @@ public class Portfolio {
     @OneToMany(mappedBy = "portfolio")
     private Set<Stock> stocks;
 
-    private double totalAmount;
 
     private double buyingPower;
 }
