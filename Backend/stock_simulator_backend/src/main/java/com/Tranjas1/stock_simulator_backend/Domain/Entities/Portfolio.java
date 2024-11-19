@@ -17,11 +17,12 @@ import java.util.Set;
 public class Portfolio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long portfolioId;
+    @Column(name = "user_id")
+    private long userId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
+    @MapsId
     private User user;
 
     @OneToMany(mappedBy = "portfolio")

@@ -1,6 +1,8 @@
 package com.Tranjas1.stock_simulator_backend.Repositories;
 
+import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
 
 @SpringBootTest
@@ -18,10 +21,12 @@ import java.util.Optional;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class StockRepositoryIntegrationTest {
     private final StockRepository underTest;
+    private final PortfolioRepository portfolioRepository;
 
     @Autowired
-    public StockRepositoryIntegrationTest(StockRepository underTest) {
+    public StockRepositoryIntegrationTest(StockRepository underTest, PortfolioRepository portfolioRepository) {
         this.underTest = underTest;
+        this.portfolioRepository = portfolioRepository;
     }
 
     @Test
@@ -107,5 +112,4 @@ public class StockRepositoryIntegrationTest {
         double totalValue = stock.getAmount() * stock.getPrice();
         assertThat(totalValue).isEqualTo(1690.0);
     }
-
 }
