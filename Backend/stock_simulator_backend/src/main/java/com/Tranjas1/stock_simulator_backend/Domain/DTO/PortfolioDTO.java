@@ -1,15 +1,11 @@
 package com.Tranjas1.stock_simulator_backend.Domain.DTO;
 
-import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
-import com.Tranjas1.stock_simulator_backend.Domain.Entities.User;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -21,7 +17,7 @@ public class PortfolioDTO {
 
     private long id;
 
-    private Set<Stock> stocks;
+    private Map<String, Double> stocks;
 
     private double buyingPower;
 }

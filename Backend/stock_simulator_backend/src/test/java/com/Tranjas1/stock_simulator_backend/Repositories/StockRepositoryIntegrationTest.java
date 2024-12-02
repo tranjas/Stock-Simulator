@@ -1,8 +1,5 @@
 package com.Tranjas1.stock_simulator_backend.Repositories;
 
-import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
-import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
 
 @SpringBootTest

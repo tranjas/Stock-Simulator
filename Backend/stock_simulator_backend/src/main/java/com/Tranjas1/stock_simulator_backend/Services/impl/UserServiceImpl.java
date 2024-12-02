@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUser(long id) {
+        Optional<User> currentUser = userRepository.findById(id);
+        return currentUser.orElse(null);
+    }
+    @Override
     public User updateUser(long id, User user) {
         Optional<User> currentUser = userRepository.findById(id);
         if (currentUser.isPresent()) {

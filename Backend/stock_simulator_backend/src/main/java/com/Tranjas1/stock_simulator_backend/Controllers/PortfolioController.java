@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 public class PortfolioController {
     private final PortfolioService portfolioService;
@@ -20,34 +21,29 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
     }
 
-    @PostMapping(path = "/portfolios")
-    public ResponseEntity<PortfolioDTO> createPortfolio (@RequestBody PortfolioDTO portfolioDTO) {
+    @PostMapping(path = "/portfolios/{id}")
+    public ResponseEntity<PortfolioDTO> createPortfolio (@RequestBody PortfolioDTO portfolioDTO, @PathVariable long id) {
         Portfolio portfolioEntity = portfolioMapper.mapToEntity(portfolioDTO);
-        Portfolio portfolioSaved = portfolioService.createPortfolio(portfolioEntity);
+        Portfolio portfolioSaved = portfolioService.createPortfolio(portfolioEntity, id);
         return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolioSaved), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/portfolios/{id}")
-    public ResponseEntity<PortfolioDTO> getPortfolio(@PathVariable long user_id) {
-        Portfolio portfolio = portfolioService.getPortfolio(user_id);
+    public ResponseEntity<PortfolioDTO> getPortfolio(@PathVariable long id) {
+        Portfolio portfolio = portfolioService.getPortfolio(id);
         return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolio), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/portfolios/{id}")
-    public ResponseEntity<Void> deletePortfolio (@PathVariable long user_id) {
-        boolean isDeleted = portfolioService.deletePortfolio(user_id);
+    public ResponseEntity<Void> deletePortfolio (@PathVariable long id) {
+        boolean isDeleted = portfolioService.deletePortfolio(id);
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    @PutMapping(path = "/portfolios/buyingPower/{id}/{amount}")
-    public ResponseEntity<Void> updateBuyingPower (@PathVariable long user_id, @PathVariable double amount) {
-        portfolioService.updateBuyingPower(user_id, amount);
+    @PutMapping(path = "/portfolios/{id}/{amount}")
+    public ResponseEntity<Void> updateBuyingPower (@PathVariable long id, @PathVariable double amount) {
+        portfolioService.updateBuyingPower(id, amount);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/portfolios/{id}/{symbol}/{method}")
-    public ResponseEntity<PortfolioDTO> updateStock (@PathVariable long user_id, @PathVariable String symbol, @PathVariable String method) {
-        Portfolio portfolio = portfolioService.updateStock(user_id, symbol, method);
-        return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolio), HttpStatus.OK);
-    }
 }

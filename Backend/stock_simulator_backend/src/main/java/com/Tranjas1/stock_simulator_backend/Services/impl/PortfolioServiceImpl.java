@@ -1,17 +1,15 @@
 package com.Tranjas1.stock_simulator_backend.Services.impl;
 
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
-import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.User;
 import com.Tranjas1.stock_simulator_backend.Repositories.PortfolioRepository;
-import com.Tranjas1.stock_simulator_backend.Repositories.StockRepository;
+import com.Tranjas1.stock_simulator_backend.Repositories.UserRepository;
 import com.Tranjas1.stock_simulator_backend.Services.PortfolioService;
-import com.Tranjas1.stock_simulator_backend.Services.StockService;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -19,15 +17,20 @@ import java.util.Optional;
 @Service
 public class PortfolioServiceImpl implements PortfolioService {
     private final PortfolioRepository portfolioRepository;
-    private final StockRepository stockService;
+    private final UserRepository userRepository;
     @Autowired
-    public PortfolioServiceImpl(PortfolioRepository portfolioRepository, StockRepository stockService) {
+    public PortfolioServiceImpl(PortfolioRepository portfolioRepository, UserRepository userRepository) {
         this.portfolioRepository = portfolioRepository;
-        this.stockService = stockService;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Portfolio createPortfolio(Portfolio portfolioEntity) {
+    public Portfolio createPortfolio(Portfolio portfolioEntity, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        portfolioEntity.setUser(user); // Set user
+        portfolioEntity.setUserIdwithUser(user);
+
         return portfolioRepository.save(portfolioEntity);
     }
 
@@ -59,18 +62,5 @@ public class PortfolioServiceImpl implements PortfolioService {
                 .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user ID: " + user_id));
     }
 
-    @Override
-    public Portfolio updateStock(long user_id, String symbol, String method) {
-        Portfolio portfolio = portfolioRepository.findById(user_id)
-                .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user ID: " + user_id));
 
-        Optional<Stock> stock = stockService.findById(symbol);
-        if (stock.isEmpty()) throw new EntityNotFoundException("Stock not found for user ID: " + symbol);
-        if (method.equals("add")) {
-            portfolio.getStocks().add(stock.get());
-        } else if(method.equals("remove")) {
-            portfolio.getStocks().remove(stock.get());
-        }
-        return portfolioRepository.save(portfolio);
-    }
 }

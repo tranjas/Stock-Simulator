@@ -1,9 +1,11 @@
 package com.Tranjas1.stock_simulator_backend.Services;
 
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Portfolio;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface PortfolioService {
-    Portfolio createPortfolio(Portfolio portfolioEntity);
+
+    Portfolio createPortfolio(Portfolio portfolioEntity, long userId);
 
     boolean deletePortfolio(long user_id);
 
@@ -11,5 +13,4 @@ public interface PortfolioService {
 
     Portfolio getPortfolio(long user_id);
 
-    Portfolio updateStock(long user_id, String symbol, String method);
 }

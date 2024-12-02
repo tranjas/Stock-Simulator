@@ -8,4 +8,6 @@ public interface UserService {
     boolean deleteUser(long id);
 
     User updateUser(long id, User user);
+
+    User getUser(long id);
 }

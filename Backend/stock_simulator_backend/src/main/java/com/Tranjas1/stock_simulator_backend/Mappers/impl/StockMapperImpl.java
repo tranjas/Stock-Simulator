@@ -1,13 +1,18 @@
 package com.Tranjas1.stock_simulator_backend.Mappers.impl;
 
 import com.Tranjas1.stock_simulator_backend.Domain.DTO.StockDTO;
+import com.Tranjas1.stock_simulator_backend.Domain.DTO.TransactionDTO;
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
+import com.Tranjas1.stock_simulator_backend.Domain.Entities.Transaction;
 import com.Tranjas1.stock_simulator_backend.Mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class StockMapperImpl implements Mapper<Stock, StockDTO> {
+
     private final ModelMapper modelMapper;
 
     public StockMapperImpl(ModelMapper modelMapper) {

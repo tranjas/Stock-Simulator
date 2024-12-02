@@ -21,7 +21,7 @@ public class TransactionDTO {
     private double totalPrice;
 
 
-    private String stock;
+    private String symbol;
 
     private double amount;
 }

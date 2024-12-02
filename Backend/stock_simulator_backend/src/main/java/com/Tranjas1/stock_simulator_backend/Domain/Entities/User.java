@@ -18,12 +18,14 @@ import java.util.Optional;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private long id;
 
     private String firstName;
 
     private String lastName;
 
+    @Column(unique = true)
     private String email;
 
     private LocalDate dateOfBirth;

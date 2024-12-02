@@ -24,9 +24,7 @@ public class Transaction {
 
     private double totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "stock_symbol")
-    private Stock stock;
-
     private double amount;
+
+    private String symbol;
 }

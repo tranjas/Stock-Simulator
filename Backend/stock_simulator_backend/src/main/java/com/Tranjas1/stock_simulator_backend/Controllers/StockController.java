@@ -13,28 +13,27 @@ public class StockController {
     private final StockService stockService;
     private final Mapper<Stock, StockDTO> stockMapper;
 
+
     public StockController(StockService stockService, Mapper<Stock, StockDTO> stockMapper) {
         this.stockMapper = stockMapper;
         this.stockService = stockService;
     }
 
-    @PostMapping(path = "/stocks")
-    public ResponseEntity<StockDTO> createStock(@RequestBody StockDTO stockDTO) {
-        Stock stockEntity = stockMapper.mapToEntity(stockDTO);
-        Stock stockSaved = stockService.createStock(stockEntity);
+    @PostMapping(path = "/stocks/{id}/{symbol}/{amount}")
+    public ResponseEntity<StockDTO> createStock(@PathVariable long id, @PathVariable String symbol,@PathVariable double amount) {
+        Stock stockSaved = stockService.createStock(id, symbol, amount);
         return new ResponseEntity<>(stockMapper.mapToDTO(stockSaved), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/stocks/{symbol}")
-    public ResponseEntity<Void> deleteStock(@PathVariable String symbol) {
-        boolean isDeleted = stockService.deleteStock(symbol);
+    @DeleteMapping(path = "/stocks/{id}/{symbol}")
+    public ResponseEntity<Void> deleteStock(@PathVariable long id, @PathVariable String symbol) {
+        boolean isDeleted = stockService.deleteStock(id,symbol);
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    @PutMapping(path = "/stocks/{symbol}")
-    public ResponseEntity<StockDTO> updateStock(@PathVariable String symbol, @RequestBody StockDTO stockDTO) {
-        Stock stockEntity = stockMapper.mapToEntity(stockDTO);
-        Stock stockSaved = stockService.updateStock(symbol, stockEntity);
+    @PutMapping(path = "/stocks/{id}/{symbol}/{amount}")
+    public ResponseEntity<StockDTO> updateStock(@PathVariable long id, @PathVariable String symbol,@PathVariable double amount) {
+        Stock stockSaved = stockService.updateStock(id, symbol, amount);
         return ResponseEntity.ok(stockMapper.mapToDTO(stockSaved));
     }
 }
