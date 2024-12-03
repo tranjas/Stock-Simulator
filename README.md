@@ -17,7 +17,9 @@ DTOs: Data Transfer Objects for managing structured data flow between layers.
 APIs to create, update, and delete user profiles.
 
 Create User
+
 Endpoint: POST /users
+
 Request Body:
 ```
 {
@@ -28,7 +30,9 @@ Request Body:
 }
 ```
 Response: Returns the created user details.
+
 HTTP Status: 201 Created
+
 Update User
 Endpoint: PUT /users/{id}
 Request Body:
