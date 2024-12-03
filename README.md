@@ -29,13 +29,14 @@ Update User
 Endpoint: PUT /users/{id}
 Request Body:
 json
-Copy code
+```
 {
     "firstName": "Jason",
     "lastName": "Tran",
     "email": "new.email@example.com",
     "dateOfBirth": "1990-01-01"
 }
+```
 Response: Updated user details.
 HTTP Status: 200 OK
 Delete User
