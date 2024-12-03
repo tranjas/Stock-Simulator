@@ -39,4 +39,12 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapToDTO(savedUser));
     }
 
+    @GetMapping(path = "/users/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        User user = userService.getUser(id);
+        return user != null
+                ? ResponseEntity.ok(userMapper.mapToDTO(user))
+                : ResponseEntity.notFound().build();
+    }
+
 }

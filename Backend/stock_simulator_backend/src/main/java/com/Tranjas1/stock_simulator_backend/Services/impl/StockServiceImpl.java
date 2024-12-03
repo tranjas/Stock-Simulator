@@ -7,12 +7,9 @@ import com.Tranjas1.stock_simulator_backend.Repositories.StockRepository;
 import com.Tranjas1.stock_simulator_backend.Services.PortfolioService;
 import com.Tranjas1.stock_simulator_backend.Services.StockService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class StockServiceImpl implements StockService {

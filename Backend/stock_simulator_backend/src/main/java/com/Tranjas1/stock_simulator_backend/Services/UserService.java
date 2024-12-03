@@ -10,4 +10,5 @@ public interface UserService {
     User updateUser(long id, User user);
 
     User getUser(long id);
+
 }
