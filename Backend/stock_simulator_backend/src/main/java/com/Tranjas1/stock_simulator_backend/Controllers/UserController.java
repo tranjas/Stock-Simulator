@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-    private UserService userService;
-    private Mapper<User, UserDTO> userMapper;
+    private final UserService userService;
+    private final Mapper<User, UserDTO> userMapper;
 
     @Autowired
     public UserController(UserService userService, Mapper<User, UserDTO> userMapper) {
@@ -32,5 +32,11 @@ public class UserController {
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build(); // 204 if delete was successful else 404 if not found
     }
 
+    @PutMapping(path ="users/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUser) {
+        User updatedUserEntity = userMapper.mapToEntity(updatedUser);
+        User savedUser = userService.updateUser(id, updatedUserEntity);
+        return ResponseEntity.ok(userMapper.mapToDTO(savedUser));
+    }
 
 }
