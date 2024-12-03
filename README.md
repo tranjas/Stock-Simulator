@@ -13,7 +13,7 @@ Repositories: Interface with the database for CRUD operations.
 DTOs: Data Transfer Objects for managing structured data flow between layers.
 
 ## 📖 API Documentation
-1. User Management
+### 1. User Management
 APIs to create, update, and delete user profiles.
 
 Create User
@@ -52,7 +52,7 @@ Endpoint: DELETE /users/{id}
 Response:
 204 No Content if successful.
 404 Not Found if the user does not exist.
-2. Portfolio Management
+### 2. Portfolio Management
 APIs to create, retrieve, update, and delete portfolios.
 
 Create Portfolio
@@ -81,7 +81,7 @@ id: User ID.
 Response:
 204 No Content if successful.
 404 Not Found if the portfolio does not exist.
-3. Stock Management
+### 3. Stock Management
 APIs to add, update, and delete stocks within a portfolio.
 
 Add Stock
@@ -108,7 +108,7 @@ symbol: Stock symbol.
 Response:
 204 No Content if successful.
 404 Not Found if the stock does not exist.
-4. Transaction Management
+### 4. Transaction Management
 APIs to log stock transactions (buy/sell).
 
 Create Transaction
