@@ -1,6 +1,7 @@
 package com.Tranjas1.stock_simulator_backend.Repositories;
 
 import com.Tranjas1.stock_simulator_backend.Domain.Entities.User;
+import com.Tranjas1.stock_simulator_backend.Services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ public class UserRepositoryIntegrationTest {
 
     private final UserRepository underTest;
 
+    private final UserService userService;
+
     @Autowired
-    public UserRepositoryIntegrationTest(UserRepository underTest) {
+    public UserRepositoryIntegrationTest(UserRepository underTest, UserService userService) {
         this.underTest = underTest;
+        this.userService = userService;
     }
 
     public User setUser(String firstName, String lastName, String email, LocalDate date) {
@@ -40,7 +44,7 @@ public class UserRepositoryIntegrationTest {
                 .build();
 
         // Act: Save the user to the repository
-        underTest.save(user);
+        userService.createUser(user);
 
         // Assert: Retrieve the user by ID and verify it is persisted
         Optional<User> foundUser = underTest.findById(user.getId());
@@ -57,7 +61,7 @@ public class UserRepositoryIntegrationTest {
         underTest.save(temp);
         Optional<User> users = underTest.findById(temp.getId());
         assertThat(users).isPresent();
-        underTest.delete(temp);
+        userService.deleteUser(temp.getId());
         users = underTest.findById(temp.getId());
         assertThat(users).isEmpty();
     }
@@ -68,7 +72,7 @@ public class UserRepositoryIntegrationTest {
         underTest.save(temp);
         temp.setFirstName("Joe");
         temp.setLastName("Doe");
-        underTest.save(temp);
+        userService.updateUser(temp.getId(), temp);
         assertThat(temp.getFirstName()).isEqualTo("Joe");
         assertThat(temp.getLastName()).isEqualTo("Doe");
     }

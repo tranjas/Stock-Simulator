@@ -7,10 +7,12 @@ import com.Tranjas1.stock_simulator_backend.Repositories.StockRepository;
 import com.Tranjas1.stock_simulator_backend.Services.PortfolioService;
 import com.Tranjas1.stock_simulator_backend.Services.StockService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StockServiceImpl implements StockService {
@@ -31,19 +33,29 @@ public class StockServiceImpl implements StockService {
         Optional<Stock> stockOpt = stockRepository.findByUserIdAndSymbol(id, symbol);
         return stockOpt.orElse(null);
     }
-    @Override
     public Stock createStock(long id, String symbol, double amount) {
         Portfolio portfolio = portfolioService.getPortfolio(id);
+
+        // Check if the stock already exists
         Optional<Stock> stockOpt = stockRepository.findByUserIdAndSymbol(id, symbol);
-        if (stockOpt.isPresent()) throw new EntityNotFoundException("Stock already exists");
+        if (stockOpt.isPresent()) {
+            throw new EntityNotFoundException("Stock with symbol " + symbol + " already exists in the portfolio");
+        }
+
+        // Create the stock and add it to the portfolio
         Stock stock = new Stock();
-        stock.setAmount(amount);
-        stock.setPortfolio(portfolio);
+        stock.setPortfolio(portfolio);  // Link the stock to the portfolio
         stock.setSymbol(symbol);
-        portfolio.getStocks().add(stock);
-        portfolioRepository.save(portfolio);
-        return stockRepository.save(stock);
+        stock.setAmount(amount);
+        portfolio.addStock(stock);  // Add the stock to the portfolio's collection
+
+        // Save the stock and portfolio
+        stockRepository.save(stock);  // Persist stock
+        portfolioRepository.save(portfolio);  // Persist portfolio (if necessary)
+
+        return stock;
     }
+
 
     @Override
     public boolean deleteStock(long id, String symbol) {

@@ -22,9 +22,8 @@ public class PortfolioController {
     }
 
     @PostMapping(path = "/portfolios/{id}")
-    public ResponseEntity<PortfolioDTO> createPortfolio (@RequestBody PortfolioDTO portfolioDTO, @PathVariable long id) {
-        Portfolio portfolioEntity = portfolioMapper.mapToEntity(portfolioDTO);
-        Portfolio portfolioSaved = portfolioService.createPortfolio(portfolioEntity, id);
+    public ResponseEntity<PortfolioDTO> createPortfolio (@PathVariable long id) {
+        Portfolio portfolioSaved = portfolioService.createPortfolio(id);
         return new ResponseEntity<>(portfolioMapper.mapToDTO(portfolioSaved), HttpStatus.CREATED);
     }
 

@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PortfolioService {
 
-    Portfolio createPortfolio(Portfolio portfolioEntity, long userId);
+    Portfolio createPortfolio(long userId);
 
     boolean deletePortfolio(long user_id);
 

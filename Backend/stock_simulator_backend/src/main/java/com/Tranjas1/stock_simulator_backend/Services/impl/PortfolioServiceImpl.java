@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -25,13 +26,12 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public Portfolio createPortfolio(Portfolio portfolioEntity, long userId) {
+    public Portfolio createPortfolio(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        portfolioEntity.setUser(user); // Set user
-        portfolioEntity.setUserIdwithUser(user);
-
-        return portfolioRepository.save(portfolioEntity);
+        Portfolio portfolio = new Portfolio();
+        portfolio.setUser(user);
+        return portfolioRepository.save(portfolio);
     }
 
     @Override

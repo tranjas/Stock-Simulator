@@ -1,5 +1,6 @@
 package com.Tranjas1.stock_simulator_backend.Domain.DTO;
 
+import com.Tranjas1.stock_simulator_backend.Domain.Entities.Stock;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class PortfolioDTO {
 
     private long id;
 
-    private Map<String, Double> stocks;
+    private Set<Stock> stocks;
 
     private double buyingPower;
 }
