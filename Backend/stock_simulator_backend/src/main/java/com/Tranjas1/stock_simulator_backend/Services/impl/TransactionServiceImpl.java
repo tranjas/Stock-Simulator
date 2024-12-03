@@ -49,9 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
                 stockService.updateStock(id, symbol, amount);
             }
             portfolioService.updateBuyingPower(id, total_price * -1);
-        }
-        else {
-            if (action.equals("Sell")) {
+        } else if (action.equals("Sell")) {
                 assert stock != null;
                 if (stock.getAmount() < amount) {
                     throw new EntityNotFoundException("Can't sell stock since stock is not present");
@@ -59,6 +57,8 @@ public class TransactionServiceImpl implements TransactionService {
                 stockService.updateStock(id,symbol, amount * -1);
                 portfolioService.updateBuyingPower(id, total_price);
             }
+        else {
+            throw new EntityNotFoundException("Not a valid method");
         }
         transaction.setUser(user);
         transaction.setSymbol(symbol);

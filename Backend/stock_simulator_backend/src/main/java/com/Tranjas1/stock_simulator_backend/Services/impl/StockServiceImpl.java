@@ -56,14 +56,13 @@ public class StockServiceImpl implements StockService {
         return stock;
     }
 
-
     @Override
     public boolean deleteStock(long id, String symbol) {
         Optional<Stock> stockOpt = stockRepository.findByUserIdAndSymbol(id, symbol);
         Portfolio portfolio = portfolioService.getPortfolio(id);
         if (stockOpt.isPresent()) {
             Stock stock = stockOpt.get();
-            portfolio.getStocks().remove(stock);
+            portfolio.removeStock(stock);
             portfolioRepository.save(portfolio);
             stockRepository.delete(stock);
             return true;
