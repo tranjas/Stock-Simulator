@@ -1,28 +1,32 @@
-Stock Simulator Backend - README
+# Stock Simulator Backend - README
 Welcome to the Stock Simulator Backend! This Spring Boot application provides APIs to manage users, portfolios, stocks, and transactions. It forms the backbone of a stock simulation platform, allowing operations such as user management, stock trading, and portfolio updates.
 
-🏗️ Project Structure
+## 🏗️ Project Structure
 The backend is structured using a layered architecture to ensure separation of concerns:
 
 Controllers: Expose REST APIs for interaction.
+
 Services: Handle business logic and processing.
+
 Repositories: Interface with the database for CRUD operations.
+
 DTOs: Data Transfer Objects for managing structured data flow between layers.
-📖 API Documentation
+
+## 📖 API Documentation
 1. User Management
 APIs to create, update, and delete user profiles.
 
 Create User
 Endpoint: POST /users
 Request Body:
-json
-Copy code
+```
 {
     "firstName": "Jason",
     "lastName": "Tran",
     "email": "jason.tran@example.com",
     "dateOfBirth": "1990-01-01"
 }
+```
 Response: Returns the created user details.
 HTTP Status: 201 Created
 Update User
