@@ -4,17 +4,16 @@ Welcome to the Stock Simulator Backend! This Spring Boot application provides AP
 ## 🏗️ Project Structure
 The backend is structured using a layered architecture to ensure separation of concerns:
 
-Controllers: Expose REST APIs for interaction.
+- Controllers: Expose REST APIs for interaction.
 
-Services: Handle business logic and processing.
+- Services: Handle business logic and processing.
 
-Repositories: Interface with the database for CRUD operations.
+- Repositories: Interface with the database for CRUD operations.
 
-DTOs: Data Transfer Objects for managing structured data flow between layers.
+- DTOs: Data Transfer Objects for managing structured data flow between layers.
 
 ## 📖 API Documentation
-### 1. User Management
-APIs to create, update, and delete user profiles.
+### 1. User Management: APIs to create, update, and delete user profiles.
 
 Create User
 
@@ -29,14 +28,17 @@ Request Body:
     "dateOfBirth": "1990-01-01"
 }
 ```
-Response: Returns the created user details.
-
-HTTP Status: 201 Created
+- Response: 
+    - Returns the created user details.
+    - HTTP Status: 201 Created
 
 Update User
+
 Endpoint: PUT /users/{id}
+
+Response: Updated user details. HTTP Status: 200 OK
+
 Request Body:
-json
 ```
 {
     "firstName": "Jason",
@@ -45,8 +47,6 @@ json
     "dateOfBirth": "1990-01-01"
 }
 ```
-Response: Updated user details.
-HTTP Status: 200 OK
 Delete User
 Endpoint: DELETE /users/{id}
 Response:
