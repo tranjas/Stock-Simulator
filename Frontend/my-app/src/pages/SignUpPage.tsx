@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../Firebase';
-import axios from 'axios';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../Firebase";
+import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 interface UserPayload {
@@ -14,27 +14,37 @@ interface UserPayload {
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
-  
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [dateOfBirth, setDateOfBirth] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [dateOfBirth, setDateOfBirth] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email === '' || password === '' || firstName === '' || lastName === '' || dateOfBirth === '') {
-        setErrorMessage("Insufficient Information");
-        return;
+    if (
+      email === "" ||
+      password === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      dateOfBirth === ""
+    ) {
+      setErrorMessage("Insufficient Information");
+      return;
     }
     if (password !== confirmPassword) {
       setErrorMessage("Password is not the same");
       return;
     }
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const firebaseUser = userCredential.user;
 
       const userPayload: UserPayload = {
@@ -44,25 +54,32 @@ const SignUpPage: React.FC = () => {
         dateOfBirth,
       };
       try {
-        const createUser = await axios.post("http://localhost:8080/users", userPayload);
+        const createUser = await axios.post(
+          "http://localhost:8080/users",
+          userPayload
+        );
         await setDoc(doc(db, "users", firebaseUser.uid), {
           customId: createUser.data.id,
         });
-        await axios.post(`http://localhost:8080/portfolios/${createUser.data.id}`);
-        navigate('/');
+        await axios.post(
+          `http://localhost:8080/portfolios/${createUser.data.id}`
+        );
+        navigate("/");
         alert("Sign Up Successful");
-      } catch(err: any) {
+      } catch (err: any) {
         setErrorMessage(err.message || "An error occurred.");
       }
     } catch (err: any) {
       setErrorMessage(err.message || "An error occurred.");
     }
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-mint-green">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">Sign Up</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">
+          Sign Up
+        </h1>
         <form onSubmit={handleSignUp} className="space-y-4">
           <div>
             <label className="block text-gray-600 mb-1">Email:</label>
@@ -137,7 +154,10 @@ const SignUpPage: React.FC = () => {
           </div>
           <button
             type="button"
-            onClick={() =>  { setErrorMessage(''); navigate('/'); }}
+            onClick={() => {
+              setErrorMessage("");
+              navigate("/");
+            }}
             className="w-full text-mint-green text-center py-2 px-4 rounded-lg border border-mint-green hover:bg-green-100 transition mt-2"
           >
             Back to Login

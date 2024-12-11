@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../Firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../Firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleLogin = async () => {
     try {
@@ -61,7 +61,7 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
         <button
-          onClick={() => navigate('/signup')}
+          onClick={() => navigate("/signup")}
           className="w-full text-mint-green text-center py-2 px-4 rounded-lg border border-mint-green hover:bg-green-100 transition mt-4"
         >
           Sign Up
