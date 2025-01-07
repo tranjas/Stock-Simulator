@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import fetchBuyingPower from '../api/fetchBuyingPower';
 
 const Navbar: React.FC = () => {
+  const[buyingPower, setBuyingPower] = useState('');
   const navigate = useNavigate();
+
+  useEffect( ()=> {
+    const fetchData = async () => {
+      const data = await fetchBuyingPower();
+      setBuyingPower(data);
+    }
+    fetchData();
+  }, [])
 
   return (
     <nav className="bg-mint-green shadow-md mb-40">
@@ -14,7 +24,9 @@ const Navbar: React.FC = () => {
         >
           Stock Simulator
         </div>
-
+        <div >
+          <p className='text-gray-700'>Buying Power: {buyingPower}</p>
+        </div>
         {/* Links */}
         <div className="space-x-6">
           <button
